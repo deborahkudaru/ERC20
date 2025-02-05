@@ -1,10 +1,9 @@
-// SPDX-License-Identifier: SEE LICENSE IN LICENSE
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
 contract Token {
     string public tokenName = "Debee";
     string public tokenSymbol = "BEE";
-    uint public decimals = 18;
     uint public total;
     address owner = msg.sender;
 
@@ -18,12 +17,12 @@ contract Token {
     event Approve(address indexed owner, address indexed spender, uint value);
 
     constructor(uint _amountAdded) {
-        total = _amountAdded * 10 ** uint(decimals);
+        total = _amountAdded * 10 ** uint(18);
         balance[msg.sender] = total;
         emit Transfer(address(0), msg.sender, total);
     }
 
-    function transfer(address _to, uint _value) public returns (bool sucess) {
+    function transfer(address _to, uint _value) public virtual returns (bool sucess) {
         require(balance[owner] >= _value, "Insufficient funds");
         balance[owner] -= _value;
         balance[_to] += _value;
