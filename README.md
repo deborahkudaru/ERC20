@@ -12,4 +12,7 @@ npx hardhat node
 npx hardhat ignition deploy ./ignition/modules/Lock.ts
 ```
 Link to the testing
-https://github.com/deborahkudaru/hardHat2
+https://github.com/deborahkudaru/studentManagementTesting
+
+contract address...
+ 0xa98E63613Bf108df64A2051Ad825EC19d24f13e4
