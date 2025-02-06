@@ -1,39 +1,37 @@
+import {
+  time,
+  loadFixture,
+} from "@nomicfoundation/hardhat-toolbox/network-helpers";
+import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import hre from "hardhat";
 
-describe("TokenSavings", function () {
-  let TokenSavings: any, tokenSavings: any, owner: any, addr1: any;
+describe("BEESaving", function () {
+  // We define a fixture to reuse the same setup in every test.
+  // We use loadFixture to run this setup once, snapshot that state,
+  // and reset Hardhat Network to that snapshot in every test.
+  async function deployERCToken() {
+ 
 
-  beforeEach(async function () {
-    [owner, addr1] = await ethers.getSigners();
-    TokenSavings = await ethers.getContractFactory("TokenSavings");
-    tokenSavings = await TokenSavings.deploy(ethers.parseEther("1000000"));
+    // Contracts are deployed using the first signer/account by default
+    const [owner, otherAccount] = await hre.ethers.getSigners();
+
+    const BEESaving = await hre.ethers.getContractFactory("To");
+    const Token = await BEESaving.deploy();
+    // const stuff = await BEEToken
+
+    return {Token, owner, otherAccount };
+  }
+
+  describe("Deployment", function () {
+    it("Should deploy successfully", async function () {
+      const { Token, owner, otherAccount } = await loadFixture(deployERCToken);
+
+    
+    });
+
   });
 
-  it("Should deploy with the correct initial supply", async function () {
-    const ownerBalance = await tokenSavings.balanceOf(owner.address);
-    expect(await tokenSavings.totalSupply()).to.equal(ownerBalance);
-  });
+ 
 
-  it("Should allow users to save tokens", async function () {
-    await tokenSavings.saveTokens(ethers.parseEther("500"));
-    const savedBalance = await tokenSavings.savedBalance(owner.address);
-    expect(savedBalance).to.equal(ethers.parseEther("500"));
-  });
-
-  it("Should allow users to withdraw saved tokens", async function () {
-    await tokenSavings.saveTokens(ethers.parseEther("500"));
-    await tokenSavings.withdrawTokens(ethers.parseEther("300"));
-    const savedBalance = await tokenSavings.savedBalance(owner.address);
-    const ownerBalance = await tokenSavings.balanceOf(owner.address);
-    expect(savedBalance).to.equal(ethers.parseEther("200"));
-    expect(ownerBalance).to.equal(ethers.parseEther("999700"));
-  });
-
-  it("Should fail if user tries to withdraw more than saved", async function () {
-    await tokenSavings.saveTokens(ethers.parseEther("500"));
-    await expect(
-      tokenSavings.withdrawTokens(ethers.parseEther("600"))
-    ).to.be.revertedWith("Insufficient saved balance");
-  });
 });
