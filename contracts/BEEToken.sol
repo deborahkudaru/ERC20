@@ -24,7 +24,6 @@ contract BEEToken {
 
     function transfer(address _to, uint _value) public returns (bool success) {
         require(balanceOf[msg.sender] >= _value, "Insufficient funds");
-        require(_to != address(0), "Invalid recipient");
 
         balanceOf[msg.sender] -= _value;
         balanceOf[_to] += _value;
@@ -33,7 +32,6 @@ contract BEEToken {
     }
 
     function approve(address _spender, uint _value) public returns (bool success) {
-        require(_spender != address(0), "Invalid address");
 
         allowance[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value);
@@ -43,7 +41,6 @@ contract BEEToken {
     function transferFrom(address _from, address _to, uint _value) public returns (bool success) {
         require(balanceOf[_from] >= _value, "Insufficient funds");
         require(allowance[_from][msg.sender] >= _value, "Allowance exceeded");
-        require(_to != address(0), "Invalid recipient");
 
         balanceOf[_from] -= _value;
         balanceOf[_to] += _value;

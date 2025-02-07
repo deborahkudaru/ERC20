@@ -12,8 +12,8 @@ contract BEESaving is BEEToken {
     constructor(uint _initialSupply) BEEToken(_initialSupply) {}
 
     function deposit(uint _amount) external {
-        require(_amount > 0, "Deposit amount must be greater than zero");
-        require(balanceOf[msg.sender] >= _amount, "Insufficient balance");
+        require(_amount > 0, "Deposit must be greater than zero");
+        require(balanceOf[msg.sender] >= _amount, "Insufficient funds");
         balanceOf[msg.sender] -= _amount;
         savingsBalance[msg.sender] += _amount;
 
@@ -21,8 +21,8 @@ contract BEESaving is BEEToken {
     }
 
     function withdraw(uint _amount) external {
-        require(_amount > 0, "Withdraw amount must be greater than zero");
-        require(savingsBalance[msg.sender] >= _amount, "Insufficient savings balance");
+        require(_amount > 0, "Withdraw must be greater than zero");
+        require(savingsBalance[msg.sender] >= _amount, "Insufficient savings");
         savingsBalance[msg.sender] -= _amount;
         balanceOf[msg.sender] += _amount;
 
